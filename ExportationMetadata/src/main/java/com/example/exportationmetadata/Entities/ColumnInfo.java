@@ -20,8 +20,7 @@ public class ColumnInfo implements Serializable {
     private String columnName;
     private String columnType; // Exemple: String, Integer, etc.
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "file_id")
     private FileInfo fileInfo;
-
 }

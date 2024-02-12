@@ -2,6 +2,7 @@ package com.example.exportationmetadata.Services;
 
 import com.example.exportationmetadata.Entities.ColumnInfo;
 import com.example.exportationmetadata.Entities.FileInfo;
+import com.example.exportationmetadata.Entities.FileInfoDto;
 import com.example.exportationmetadata.Repositories.ColumnInfoRepository;
 import com.example.exportationmetadata.Repositories.FileInfoRepository;
 import jakarta.transaction.Transactional;
@@ -18,6 +19,7 @@ import java.io.InputStreamReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class FileProcessingService {
@@ -158,4 +160,23 @@ public class FileProcessingService {
         });
     }
 // affichage avec dto
+public List<FileInfoDto> getAllFilesWithMetadata() {
+    List<FileInfo> files = fileInfoRepository.findAll();
+    return files.stream().map(this::convertToDto).collect(Collectors.toList());
+}
+
+    private FileInfoDto convertToDto(FileInfo fileInfo) {
+        FileInfoDto dto = new FileInfoDto();
+        dto.setFileName(fileInfo.getFileName());
+        dto.setCreationDate(fileInfo.getCreationDate());
+        List<FileInfoDto.ColumnInfoDto> columnInfos = fileInfo.getColumnInfos().stream()
+                .map(columnInfo -> {
+                    FileInfoDto.ColumnInfoDto columnInfoDto = new FileInfoDto.ColumnInfoDto();
+                    columnInfoDto.setColumnName(columnInfo.getColumnName());
+                    columnInfoDto.setColumnType(columnInfo.getColumnType());
+                    return columnInfoDto;
+                }).collect(Collectors.toList());
+        dto.setColumnInfos(columnInfos);
+        return dto;
+    }
 }

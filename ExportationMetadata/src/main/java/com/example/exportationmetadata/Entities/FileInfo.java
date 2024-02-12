@@ -1,9 +1,6 @@
 package com.example.exportationmetadata.Entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +8,7 @@ import lombok.ToString;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,4 +21,7 @@ public class FileInfo implements Serializable {
     private Long id;
     private String fileName;
     private LocalDateTime creationDate;
+
+    @OneToMany(mappedBy = "fileInfo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<ColumnInfo> columnInfos;
 }
