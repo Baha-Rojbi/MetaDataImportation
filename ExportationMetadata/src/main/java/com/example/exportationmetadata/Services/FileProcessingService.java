@@ -4,6 +4,7 @@ import com.example.exportationmetadata.Entities.ColumnInfo;
 import com.example.exportationmetadata.Entities.FileInfo;
 import com.example.exportationmetadata.Repositories.ColumnInfoRepository;
 import com.example.exportationmetadata.Repositories.FileInfoRepository;
+import jakarta.transaction.Transactional;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,14 @@ public class FileProcessingService {
 
     @Autowired
     private ColumnInfoRepository columnInfoRepository;
+    @Transactional
     public String processFile(MultipartFile file) throws Exception {
         String fileName = file.getOriginalFilename();
+        Optional<FileInfo> existingFile = fileInfoRepository.findByFileName(file.getOriginalFilename());
+        existingFile.ifPresent(fileInfo -> {
+            columnInfoRepository.deleteByFileInfo(fileInfo);
+            fileInfoRepository.delete(fileInfo);
+        });
         if (fileName.endsWith(".csv")) {
             return processCSV(file);
         } else if (fileName.endsWith(".xlsx")) {
@@ -104,7 +111,7 @@ public class FileProcessingService {
             return "Fichier Excel traité avec succès";
         }
     }
-
+// type do donnee dans excel
     private String determineDataTypeForCell(Cell cell) {
         switch (cell.getCellType()) {
             case NUMERIC:
@@ -121,7 +128,7 @@ public class FileProcessingService {
                 return "Unknown";
         }
     }
-
+// type de donnee dans csv
     private String determineDataType(String value) {
         try {
             Integer.parseInt(value);
@@ -135,4 +142,20 @@ public class FileProcessingService {
             }
         }
     }
+// delete
+@Transactional
+    public void deleteFileById(Long id) {
+        fileInfoRepository.findById(id).ifPresent(fileInfo -> {
+            columnInfoRepository.deleteByFileInfo(fileInfo);
+            fileInfoRepository.delete(fileInfo);
+        });
+    }
+    @Transactional
+    public void deleteFileByName(String name) {
+        fileInfoRepository.findByFileName(name).ifPresent(fileInfo -> {
+            columnInfoRepository.deleteByFileInfo(fileInfo);
+            fileInfoRepository.delete(fileInfo);
+        });
+    }
+// affichage avec dto
 }
