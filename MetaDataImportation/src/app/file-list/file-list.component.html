@@ -1,0 +1,9 @@
+<!-- file-list.component.html -->
+<div *ngFor="let file of files">
+    <p>Nom du fichier: {{ file.fileName }}</p>
+    <p>Date de création: {{ file.creationDate | date:'medium' }}</p>
+    <div *ngFor="let metaData of file.columnInfos">
+      <p>{{ metaData.columnName }}: {{ metaData.columnType }}</p>
+    </div>
+  </div>
+  
