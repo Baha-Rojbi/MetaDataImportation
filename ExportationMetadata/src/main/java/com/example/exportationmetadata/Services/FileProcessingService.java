@@ -45,24 +45,10 @@ public class FileProcessingService {
             throw new IllegalArgumentException("Le format de fichier n'est pas supporté. Veuillez uploader un fichier .csv ou .xlsx");
         }
     }
-    private void saveFileMetadata(String fileName, Map<String, String> columnTypes) {
-        FileInfo fileInfo = new FileInfo();
-        fileInfo.setFileName(fileName);
-        fileInfo.setCreationDate(LocalDateTime.now());
-        fileInfo = fileInfoRepository.save(fileInfo);
-
-        for (Map.Entry<String, String> entry : columnTypes.entrySet()) {
-            ColumnInfo columnInfo = new ColumnInfo();
-            columnInfo.setColumnName(entry.getKey());
-            columnInfo.setColumnType(entry.getValue());
-            columnInfo.setFileInfo(fileInfo); // Associer chaque ColumnInfo au FileInfo
-            columnInfoRepository.save(columnInfo);
-        }
-    }
 
     private String processCSV(MultipartFile file) throws IOException, CsvValidationException {
-        try (InputStream inputStream = file.getInputStream();
-             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        try (InputStream inputStream = file.getInputStream();// reads the file as bytes
+             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream)); //input stream reader bridge from byte to chars and buffer reader reads characters into text
              CSVReader csvReader = new CSVReader(bufferedReader)) {
             String[] headers = csvReader.readNext();
             if (headers == null) {
@@ -90,16 +76,16 @@ public class FileProcessingService {
     private String processExcel(MultipartFile file) throws IOException {
         try (InputStream inputStream = file.getInputStream();
              Workbook workbook = new XSSFWorkbook(inputStream)) {
-            Sheet sheet = workbook.getSheetAt(0);
-            Iterator<Row> rowIterator = sheet.iterator();
+            Sheet sheet = workbook.getSheetAt(0); // the first sheet of the file
+            Iterator<Row> rowIterator = sheet.iterator(); //an iterator over the rows of that sheet
 
-            Row headerRow = rowIterator.hasNext() ? rowIterator.next() : null;
+            Row headerRow = rowIterator.hasNext() ? rowIterator.next() : null; // checks if first row is not empty otherwise give it null
             if (headerRow == null) {
                 throw new IllegalArgumentException("Le fichier Excel est vide ou mal formaté");
             }
 
-            Map<String, String> columnTypes = new HashMap<>();
-            if (rowIterator.hasNext()) {
+            Map<String, String> columnTypes = new HashMap<>(); // map (column head , data type)
+            if (rowIterator.hasNext()) { // checks if there is another row that contains data
                 Row dataRow = rowIterator.next(); // Prendre la première ligne de données pour déterminer les types
                 for (Cell cell : dataRow) {
                     int columnIndex = cell.getColumnIndex();
@@ -113,6 +99,23 @@ public class FileProcessingService {
             return "Fichier Excel traité avec succès";
         }
     }
+
+    private void saveFileMetadata(String fileName, Map<String, String> columnTypes) {
+        FileInfo fileInfo = new FileInfo();
+        fileInfo.setFileName(fileName);
+        fileInfo.setCreationDate(LocalDateTime.now());
+        fileInfo = fileInfoRepository.save(fileInfo);
+
+        for (Map.Entry<String, String> entry : columnTypes.entrySet()) {
+            ColumnInfo columnInfo = new ColumnInfo();
+            columnInfo.setColumnName(entry.getKey());
+            columnInfo.setColumnType(entry.getValue());
+            columnInfo.setFileInfo(fileInfo); // Associer chaque ColumnInfo au FileInfo
+            columnInfoRepository.save(columnInfo);
+        }
+    }
+
+
 // type do donnee dans excel
     private String determineDataTypeForCell(Cell cell) {
         switch (cell.getCellType()) {
