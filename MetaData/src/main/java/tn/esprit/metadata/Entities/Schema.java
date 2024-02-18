@@ -24,5 +24,5 @@ public class Schema implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_table")
-    private Table parentTable;
+    private DataTable parentDataTable;
 }

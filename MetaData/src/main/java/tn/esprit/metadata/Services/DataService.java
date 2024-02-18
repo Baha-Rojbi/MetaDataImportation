@@ -4,7 +4,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.metadata.Entities.Schema;
-import tn.esprit.metadata.Entities.Table;
+import tn.esprit.metadata.Entities.DataTable;
 import tn.esprit.metadata.Repositories.SchemaRepository;
 import tn.esprit.metadata.Repositories.TableRepository;
 
@@ -18,70 +18,70 @@ public class DataService {
     @Autowired
     private SchemaRepository schemaRepository;
     @Transactional
-    public Table saveOrUpdateTableWithSchemas(Table tableEntity) {
-        if (tableEntity.getIdTable() != null) {
+    public DataTable saveOrUpdateTableWithSchemas(DataTable dataTableEntity) {
+        if (dataTableEntity.getIdTable() != null) {
             // Update existing table
-            Table existingTable = tableRepository.findById(tableEntity.getIdTable()).orElseThrow(() -> new RuntimeException("Table not found"));
-            existingTable.setName(tableEntity.getName());
-            existingTable.setDescription(tableEntity.getDescription());
-            existingTable.setCreationDate(tableEntity.getCreationDate());
-            existingTable.setSize(tableEntity.getSize());
-            existingTable.setCreator(tableEntity.getCreator());
-            existingTable.setTags(tableEntity.getTags());
+            DataTable existingDataTable = tableRepository.findById(dataTableEntity.getIdTable()).orElseThrow(() -> new RuntimeException("Table not found"));
+            existingDataTable.setName(dataTableEntity.getName());
+            existingDataTable.setDescription(dataTableEntity.getDescription());
+            existingDataTable.setCreationDate(dataTableEntity.getCreationDate());
+            existingDataTable.setSize(dataTableEntity.getSize());
+            existingDataTable.setCreator(dataTableEntity.getCreator());
+            existingDataTable.setTags(dataTableEntity.getTags());
             // Assuming schemas are correctly set with references back to the table entity
-            existingTable.getSchemas().clear();
-            existingTable.getSchemas().addAll(tableEntity.getSchemas());
-            tableEntity.getSchemas().forEach(schema -> schema.setParentTable(existingTable));
+            existingDataTable.getSchemas().clear();
+            existingDataTable.getSchemas().addAll(dataTableEntity.getSchemas());
+            dataTableEntity.getSchemas().forEach(schema -> schema.setParentDataTable(existingDataTable));
         }
-        return tableRepository.save(tableEntity);
+        return tableRepository.save(dataTableEntity);
     }
     @Transactional
     public Schema addSchemaToTable(Long tableId, Schema schemaEntity) {
-        Table table = tableRepository.findById(tableId).orElseThrow(() -> new RuntimeException("Table not found"));
-        schemaEntity.setParentTable(table);
+        DataTable dataTable = tableRepository.findById(tableId).orElseThrow(() -> new RuntimeException("Table not found"));
+        schemaEntity.setParentDataTable(dataTable);
         return schemaRepository.save(schemaEntity);
     }
     @Transactional
     public void deleteTableAndSchemas(Long tableId) {
-        Table table = tableRepository.findById(tableId).orElseThrow(() -> new RuntimeException("Table not found"));
-        tableRepository.delete(table);
+        DataTable dataTable = tableRepository.findById(tableId).orElseThrow(() -> new RuntimeException("Table not found"));
+        tableRepository.delete(dataTable);
     }
     @Transactional
-    public List<Table>getAllTables(){
+    public List<DataTable>getAllTables(){
         return tableRepository.findAll();
     }
     @Transactional
-    public Table getTableById(Long tableId) {
-        Table table=tableRepository.findById(tableId).orElseThrow(() -> new RuntimeException("Table not found"));
-        return table;
+    public DataTable getTableById(Long tableId) {
+        DataTable dataTable =tableRepository.findById(tableId).orElseThrow(() -> new RuntimeException("Table not found"));
+        return dataTable;
     }
 
     @Transactional
-    public Table updateTableAttribute(Long tableId, String attributeName, Object newValue) {
-        Table table = tableRepository.findById(tableId)
+    public DataTable updateTableAttribute(Long tableId, String attributeName, Object newValue) {
+        DataTable dataTable = tableRepository.findById(tableId)
                 .orElseThrow(() -> new RuntimeException("Table not found"));
 
         switch (attributeName.toLowerCase()) {
             case "name":
-                table.setName((String) newValue);
+                dataTable.setName((String) newValue);
                 break;
             case "description":
-                table.setDescription((String) newValue);
+                dataTable.setDescription((String) newValue);
                 break;
             case "size":
-                table.setSize((Double) newValue);
+                dataTable.setSize((Double) newValue);
                 break;
             case "creator":
-                table.setCreator((String) newValue);
+                dataTable.setCreator((String) newValue);
                 break;
             case "tags":
-                table.setTags((String) newValue);
+                dataTable.setTags((String) newValue);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown attribute: " + attributeName);
         }
 
-        return tableRepository.save(table);
+        return tableRepository.save(dataTable);
     }
     @Transactional
     public Schema updateSchemaAttribute(Long schemaId, String attributeName, Object newValue) {

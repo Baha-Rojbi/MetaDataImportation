@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.metadata.Entities.Schema;
-import tn.esprit.metadata.Entities.Table;
+import tn.esprit.metadata.Entities.DataTable;
 import tn.esprit.metadata.Services.DataService;
 
 import java.util.List;
@@ -18,9 +18,9 @@ public class DataController {
 
     // Create or update a table with schemas
     @PostMapping("/tables")
-    public ResponseEntity<?> saveOrUpdateTable(@RequestBody Table table) {
-        Table savedTable = dataService.saveOrUpdateTableWithSchemas(table);
-        return ResponseEntity.ok(savedTable);
+    public ResponseEntity<?> saveOrUpdateTable(@RequestBody DataTable dataTable) {
+        DataTable savedDataTable = dataService.saveOrUpdateTableWithSchemas(dataTable);
+        return ResponseEntity.ok(savedDataTable);
     }
 
     // Add a schema to an existing table
@@ -41,22 +41,22 @@ public class DataController {
     // Get all tables
     @GetMapping("/tables")
     public ResponseEntity<?> getAllTables() {
-        List<Table> tables = dataService.getAllTables();
-        return ResponseEntity.ok(tables);
+        List<DataTable> dataTables = dataService.getAllTables();
+        return ResponseEntity.ok(dataTables);
     }
 
     // Get a specific table by ID
     @GetMapping("/tables/{tableId}")
     public ResponseEntity<?> getTableById(@PathVariable Long tableId) {
-        Table table = dataService.getTableById(tableId);
-        return ResponseEntity.ok(table);
+        DataTable dataTable = dataService.getTableById(tableId);
+        return ResponseEntity.ok(dataTable);
     }
     @PatchMapping("/tables/{tableId}")
     public ResponseEntity<?> updateTableAttribute(@PathVariable Long tableId,
                                                   @RequestParam String attributeName,
                                                   @RequestBody Object newValue) throws RuntimeException, IllegalArgumentException {
-        Table updatedTable = dataService.updateTableAttribute(tableId, attributeName, newValue);
-        return ResponseEntity.ok(updatedTable);
+        DataTable updatedDataTable = dataService.updateTableAttribute(tableId, attributeName, newValue);
+        return ResponseEntity.ok(updatedDataTable);
     }
 
     // Endpoint to update an attribute of a schema

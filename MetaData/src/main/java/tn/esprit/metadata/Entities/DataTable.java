@@ -16,7 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @ToString
 @Entity
-public class Table implements Serializable {
+public class DataTable implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idTable;
@@ -27,6 +27,6 @@ public class Table implements Serializable {
     private String creator;
     private String tags;
 
-    @OneToMany(mappedBy = "tableEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "parentDataTable", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Schema> schemas = new HashSet<>();
 }
