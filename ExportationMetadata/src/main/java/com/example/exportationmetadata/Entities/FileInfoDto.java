@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class FileInfoDto {
+    private Long id;
     private String fileName;
     private LocalDateTime creationDate;
     private List<ColumnInfoDto> columnInfos;

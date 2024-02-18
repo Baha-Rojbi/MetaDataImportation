@@ -6,17 +6,20 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class FileService {
-  private baseUrl = 'http://localhost:8075/api/upload/'; // Ajustez selon votre configuration
+  private baseUrl = 'http://localhost:8075'; // Ajustez selon votre configuration
 
   constructor(private http: HttpClient) { }
 
   uploadFile(file: File): Observable<any> {
     const formData: FormData = new FormData();
     formData.append('file', file, file.name);
-    return this.http.post(this.baseUrl, formData);
+    return this.http.post(`${this.baseUrl}/api/upload/`, formData);
   }
   getFiles(): Observable<any> {
-    return this.http.get(`http://localhost:8075/files/all`);
+    return this.http.get(`${this.baseUrl}/files/all`);
+}
+deleteFileById(id: number): Observable<any> {
+  return this.http.delete(`${this.baseUrl}/files/deleteById/${id}`);
 }
 }
 

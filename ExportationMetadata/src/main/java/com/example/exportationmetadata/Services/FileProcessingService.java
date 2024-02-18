@@ -170,10 +170,11 @@ public List<FileInfoDto> getAllFilesWithMetadata() {
 
     private FileInfoDto convertToDto(FileInfo fileInfo) {
         FileInfoDto dto = new FileInfoDto();
+        dto.setId(fileInfo.getId());
         dto.setFileName(fileInfo.getFileName());
         dto.setCreationDate(fileInfo.getCreationDate());
         List<FileInfoDto.ColumnInfoDto> columnInfos = fileInfo.getColumnInfos().stream()
-                .map(columnInfo -> {
+                     .map(columnInfo -> {
                     FileInfoDto.ColumnInfoDto columnInfoDto = new FileInfoDto.ColumnInfoDto();
                     columnInfoDto.setColumnName(columnInfo.getColumnName());
                     columnInfoDto.setColumnType(columnInfo.getColumnType());
