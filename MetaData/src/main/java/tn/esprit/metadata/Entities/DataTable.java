@@ -1,5 +1,6 @@
 package tn.esprit.metadata.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,7 +27,7 @@ public class DataTable implements Serializable {
     private Double size;
     private String creator;
     private String tags;
-
+@JsonIgnore
     @OneToMany(mappedBy = "parentDataTable", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Schema> schemas = new HashSet<>();
 }

@@ -1,0 +1,12 @@
+/* table-detail.component.css */
+.table-detail {
+    margin-left: 20px;
+    border-left: 2px solid #00f;
+    padding-left: 20px;
+  }
+  
+  /* app.component.css */
+  .app-container {
+    display: flex;
+    justify-content: space-between;
+  }

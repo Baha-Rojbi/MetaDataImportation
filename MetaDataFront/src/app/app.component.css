@@ -1,0 +1,19 @@
+/* Container for the whole application */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Use viewport height to fill the screen */
+  }
+  
+
+  
+  /* Content area which holds sidebar and main content */
+  .app-content {
+    display: flex;
+    flex-grow: 1; /* Fill the space left by the header */
+    height: calc(100vh - 50px); /* Subtract the header height */
+  }
+  
+  
+
+  

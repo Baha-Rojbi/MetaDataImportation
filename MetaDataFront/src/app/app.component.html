@@ -1,1 +1,27 @@
-<app-header></app-header>
+<!-- Main Container -->
+<div class="app-container">
+
+  <!-- Header -->
+  <header class="app-header">
+    <app-header></app-header>
+  </header>
+
+  <!-- Content Area -->
+  <div class="app-content">
+
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+      <app-sidebar></app-sidebar>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="app-main">
+      <div class="app-container">
+        <app-table-list (selectTable)="selectedTable = $event"></app-table-list>
+        <app-table-detail [table]="selectedTable"></app-table-detail>
+      </div>
+    </main>
+
+  </div>
+
+</div>
