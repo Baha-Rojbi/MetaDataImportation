@@ -6,18 +6,19 @@ import { AppComponent } from './app.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import {  HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { DataTableListComponent } from './data-table-list/data-table-list.component';
+import { DataTableListComponent } from './data-table/data-table-list/data-table-list.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { EditDataTableDialogComponent } from './edit-data-table-dialog/edit-data-table-dialog.component';
+
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
-import { SchemasComponent } from './schemas/schemas.component';
-import { EditSchemaDialogComponent } from './edit-schema-dialog/edit-schema-dialog.component';
+import { SchemasComponent } from './table-schema/table-schemas/schemas.component';
+import { EditSchemaDialogComponent } from './table-schema/edit-schema-dialog/edit-schema-dialog.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
+import { EditDataTableDialogComponent } from './data-table/edit-data-table-dialog/edit-data-table-dialog.component';
 
 
 
