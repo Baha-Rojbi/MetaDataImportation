@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -68,7 +69,7 @@ public class FileProcessService {
                 }
             }
 
-            saveFileMetadata(file.getOriginalFilename(), columnTypes, description); // Pass description here
+            saveFileMetadata(file.getOriginalFilename(), columnTypes, description, file.getSize());
             return "CSV file processed successfully";
         }
     }
@@ -97,19 +98,21 @@ public class FileProcessService {
                 }
             }
 
-            saveFileMetadata(file.getOriginalFilename(), columnTypes, description); // Pass description here
+            saveFileMetadata(file.getOriginalFilename(), columnTypes, description, file.getSize());
             return "Excel file processed successfully";
         }
     }
 
 
-    private void saveFileMetadata(String fileName, Map<String, String> columnTypes, String description) {
+    private void saveFileMetadata(String fileName, Map<String, String> columnTypes, String description, long fileSize) {
         DataTable fileInfo = new DataTable();
-        fileInfo.setName(fileName);
-        fileInfo.setCreationDate(LocalDateTime.now());
-        fileInfo.setSize(0.0); // Assuming size is not determined at this point
-        fileInfo.setDescription(description); // Use the passed description
-        fileInfo.setCreator("System"); // Adjust as necessary
+        String nameWithoutExtension = fileName.contains(".") ? fileName.substring(0, fileName.lastIndexOf('.')) : fileName;
+        fileInfo.setName(nameWithoutExtension); // Set name without extension
+        fileInfo.setSource(fileName); // Set source to original file name
+        fileInfo.setCreationDate(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES)); // Truncate seconds
+        fileInfo.setSize((double) fileSize / 1024); // Set size in KB
+        fileInfo.setDescription(description);
+        fileInfo.setCreator("System");
 
         fileInfo = tableRepository.save(fileInfo);
 
@@ -117,11 +120,12 @@ public class FileProcessService {
             Schema columnInfo = new Schema();
             columnInfo.setName(entry.getKey());
             columnInfo.setType(entry.getValue());
-            columnInfo.setDescription("Column of " + entry.getKey()); // Example description for columns
-            columnInfo.setParentDataTable(fileInfo); // Associate each Schema with the DataTable
+            columnInfo.setDescription("Column of " + entry.getKey());
+            columnInfo.setParentDataTable(fileInfo);
             schemaRepository.save(columnInfo);
         }
     }
+
 
 
 

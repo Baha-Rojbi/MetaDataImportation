@@ -10,6 +10,7 @@ export interface Schema {
     idTable: number;
     name: string;
     description: string;
+    source:string;
     creationDate: string | Date; // Depending on how you handle dates
     size: number;
     creator: string;

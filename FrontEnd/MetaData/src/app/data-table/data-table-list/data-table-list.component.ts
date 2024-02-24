@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { UploadService } from '../services/upload.service';
-import { DataTable } from '../models/data-table';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { EditDataTableDialogComponent } from './edit-data-table-dialog/edit-data-table-dialog.component';
+import { UploadService } from '../../services/upload.service';
+
+import { DataTable } from '../../models/data-table';
+import { EditDataTableDialogComponent } from '../edit-data-table-dialog/edit-data-table-dialog.component';
+
 
 @Component({
   selector: 'app-data-table-list',
@@ -27,7 +29,7 @@ export class DataTableListComponent implements OnInit {
 
   openEditForm(dataTable: DataTable): void {
     const dialogRef = this.dialog.open(EditDataTableDialogComponent, {
-      width: '250px',
+      width: '500px',
       data: dataTable
     });
 

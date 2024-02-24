@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { EditDataTableDialogComponent } from '../data-table/data-table-list/edit-data-table-dialog/edit-data-table-dialog.component';
 import { DataTable, Schema } from '../models/data-table';
 
 @Injectable({

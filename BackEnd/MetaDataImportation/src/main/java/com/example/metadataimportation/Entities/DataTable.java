@@ -20,12 +20,14 @@ public class DataTable implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idTable;
-    private String name;
+    private String name; // This will now hold the file name without the extension
+    private String source; // Added attribute to store the file name with extension
     private String description;
     private LocalDateTime creationDate;
     private Double size;
     private String creator;
+
     @JsonIgnore
-    @OneToMany(mappedBy = "parentDataTable", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "parentDataTable", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Schema> schemas;
 }

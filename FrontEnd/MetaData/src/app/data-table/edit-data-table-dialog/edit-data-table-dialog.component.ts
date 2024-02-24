@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DataTable } from '../../../models/data-table';
+import { DataTable } from '../../models/data-table';
+
 
 @Component({
   selector: 'app-edit-data-table-dialog',
