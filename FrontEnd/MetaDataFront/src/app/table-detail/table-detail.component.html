@@ -1,0 +1,19 @@
+<div *ngIf="table" class="table-detail">
+  <h2>{{ table.name }}</h2>
+  <p>{{ table.description }}</p>
+  <p>{{ table.creationDate | date }}</p>
+  <p>{{ table.creator }}</p>
+  <div *ngIf="table.columnInfos && table.columnInfos.length">
+      <h3>Column Infos:</h3>
+      <ul>
+          <li *ngFor="let columnInfo of table.columnInfos">
+              <p>Name: {{ columnInfo.name }}</p>
+              <p>Type: {{ columnInfo.type }}</p>
+              <!-- Add other column details you want to display -->
+          </li>
+      </ul>
+  </div>
+  <div *ngIf="!(table.columnInfos && table.columnInfos.length)">
+      <p>No schemas available for this table.</p>
+  </div>
+</div>

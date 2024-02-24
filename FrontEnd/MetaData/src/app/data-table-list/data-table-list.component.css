@@ -1,0 +1,60 @@
+/* Style for the card layout similar to the uploaded image */
+.card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Adjust the space between cards */
+  }
+  .card-header .table-name {
+    color: rgb(29, 127, 219);
+  }
+  
+  
+  .card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  
+  .database-info .database-path {
+    font-size: 0.9em;
+    color: #666;
+  }
+  
+  .table-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .card-body p {
+    margin: 0;
+    color: #333;
+  }
+  
+  .card-footer {
+    margin-top: 16px;
+  }
+  
+  .tag {
+    display: inline-block;
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    margin-right: 8px;
+    border-radius: 4px;
+    font-size: 0.8em;
+  }
+  
