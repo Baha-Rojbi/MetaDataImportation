@@ -3,9 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { UploadService } from '../../services/upload.service';
 
-import { DataTable } from '../../models/data-table';
+import { DataTable, Schema } from '../../models/data-table';
 import { EditDataTableDialogComponent } from '../edit-data-table-dialog/edit-data-table-dialog.component';
-
 
 @Component({
   selector: 'app-data-table-list',
@@ -14,7 +13,8 @@ import { EditDataTableDialogComponent } from '../edit-data-table-dialog/edit-dat
 })
 export class DataTableListComponent implements OnInit {
   dataTables: DataTable[] = [];
-
+  selectedDataTable: DataTable | null = null; 
+  selectedSchemas: Schema[] = []; 
   constructor(private dataService: UploadService, private dialog: MatDialog, private router: Router) {}
 
   ngOnInit(): void {
@@ -24,6 +24,16 @@ export class DataTableListComponent implements OnInit {
   fetchDataTables(): void {
     this.dataService.getDataTables().subscribe(data => {
       this.dataTables = data;
+    });
+  }
+  selectDataTable(dataTable: DataTable): void {
+    this.selectedDataTable = dataTable;
+    this.fetchSchemas(dataTable.idTable); // Fetch schemas when a data table is selected
+  }
+
+  fetchSchemas(tableId: number): void {
+    this.dataService.getSchemasForTable(tableId).subscribe(schemas => {
+      this.selectedSchemas = schemas; // Store fetched schemas
     });
   }
 
@@ -50,4 +60,6 @@ export class DataTableListComponent implements OnInit {
   openSchemas(dataTable: DataTable): void {
     this.router.navigate(['/schemas', dataTable.idTable]);
   }
+
+ 
 }
