@@ -47,9 +47,14 @@ public class DataService {
     }
     // Add other service methods as needed
     public List<Schema> getSchemasForTable(Long tableId) {
-        DataTable dataTable = tableRepository.findById(tableId)
-                .orElseThrow(() -> new RuntimeException("DataTable not found with id " + tableId));
-        return new ArrayList<>(dataTable.getSchemas());
+        if (tableId == 0) {
+            // Return all schemas if tableId is 0
+            return new ArrayList<>(schemaRepository.findAll());
+        } else {
+            DataTable dataTable = tableRepository.findById(tableId)
+                    .orElseThrow(() -> new RuntimeException("DataTable not found with id " + tableId));
+            return new ArrayList<>(dataTable.getSchemas());
+        }
     }
     public Schema updateSchema(Long id, Schema schemaDetails) {
         Schema schema = schemaRepository.findById(id)
@@ -68,5 +73,6 @@ public class DataService {
         schema.setTags(tags);
         schemaRepository.save(schema);
     }
+
 
 }
