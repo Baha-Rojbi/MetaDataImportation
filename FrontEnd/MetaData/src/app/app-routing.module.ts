@@ -1,15 +1,14 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { DataTableListComponent } from './data-table/data-table-list/data-table-list.component';
 import { SchemasComponent } from './table-schema/table-schemas/schemas.component';
-import { TagStatsComponent } from './stats/tag-stats/tag-stats.component';
+import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   { path: 'upload', component: FileUploadComponent },
   { path: 'tables', component:DataTableListComponent },
   { path: 'schemas/:id', component: SchemasComponent },
-  { path: 'tags', component: TagStatsComponent },
   { path: '', redirectTo: '/tables', pathMatch: 'full' }
 ];
 

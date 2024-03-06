@@ -30,8 +30,8 @@
           <i *ngIf="showEditIcon[idx]" class="material-icons" (click)="editMode[idx] = true; showEditIcon[idx] = false">edit</i>
           <div *ngIf="editMode[idx]">
             <input [(ngModel)]="newTag" placeholder="Add tag" (keyup.enter)="addTag(schema, idx)">
-            <i class="material-icons" (click)="addTag(schema, idx)">check_circle</i>
-            <i class="material-icons" (click)="editMode[idx] = false">cancel</i>
+            <button (click)="addTag(schema, idx)">Confirm</button>
+            <button (click)="editMode[idx] = false">Cancel</button>
           </div>
         </td>
       </tr>

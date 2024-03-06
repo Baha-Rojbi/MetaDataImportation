@@ -1,4 +1,3 @@
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <mat-dialog-content>
   <form>
     <mat-form-field>
@@ -11,11 +10,14 @@
       <input matInput [(ngModel)]="data.description" name="description">
     </mat-form-field>
 
-    
+    <mat-form-field>
+      <mat-label>Creator</mat-label>
+      <input matInput [(ngModel)]="data.creator" name="creator">
+    </mat-form-field>
     <!-- Add other fields as necessary -->
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <i class="material-icons" (click)="onCancelClick()">cancel</i>
-  <i class="material-icons" (click)="save()">check_circle</i>
+  <button mat-button (click)="onCancelClick()">Cancel</button>
+  <button mat-button (click)="save()">Save</button>
 </mat-dialog-actions>
