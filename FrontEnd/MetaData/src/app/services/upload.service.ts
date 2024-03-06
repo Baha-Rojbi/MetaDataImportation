@@ -37,4 +37,5 @@ export class UploadService {
     return this.http.put(`${this.baseUrl}/schemas/${idSchema}/tags`, tags);
   }
   
+  
 }
