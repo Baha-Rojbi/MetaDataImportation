@@ -4,9 +4,12 @@ import com.example.metadataimportation.Entities.DataTable;
 import com.example.metadataimportation.Entities.Schema;
 import com.example.metadataimportation.Services.DataService;
 import com.example.metadataimportation.Services.FileProcessService;
+import com.example.metadataimportation.Services.PdfService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +25,8 @@ public class MetaDataContoller {
     private FileProcessService fileProcessService;
     @Autowired
     private DataService dataTableService;
+    @Autowired
+    private PdfService pdfService;
     @Autowired
     public MetaDataContoller(DataService dataTableService) {
         this.dataTableService = dataTableService;
@@ -84,7 +89,30 @@ public class MetaDataContoller {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    @PostMapping("/tables/{tableId}/schemas")
+    public ResponseEntity<Schema> createSchema(@PathVariable Long tableId, @RequestBody Schema schema) {
+        Schema createdSchema = dataTableService.createSchema(tableId, schema);
+        return new ResponseEntity<>(createdSchema, HttpStatus.CREATED);
+    }
 
+    @DeleteMapping("/schemas/{schemaId}")
+    public ResponseEntity<?> deleteSchema(@PathVariable Long schemaId) {
+        try {
+            dataTableService.deleteSchema(schemaId);
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
+    @GetMapping("/tables/{id}/download")
+    public ResponseEntity<byte[]> downloadDataTablePdf(@PathVariable Long id) {
+        byte[] pdfContent = pdfService.generateDataTablePdf(id);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        // Suggests download rather than inline display
+        headers.setContentDispositionFormData("filename", "datatable-details.pdf");
+        return new ResponseEntity<>(pdfContent, headers, HttpStatus.OK);
+    }
 
 }

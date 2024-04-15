@@ -22,10 +22,10 @@ public class Schema implements Serializable {
     private String name;
     private String type;
     private String description;
-    @ElementCollection // This annotation is used to denote a collection of simple elements
-    @CollectionTable(name = "schema_tags", joinColumns = @JoinColumn(name = "id_schema")) // This specifies the table that stores the collection
-    @Column(name = "tag") // Name of the column that stores the tags
-    private Set<String> tags = new HashSet<>(); // Using a Set to avoid duplicate tags
+    @ElementCollection // This assumes tags are stored as a collection of simple elements
+    @CollectionTable(name = "schema_tags", joinColumns = @JoinColumn(name = "id_schema"))
+    @Column(name = "tag")
+    private Set<String> tags = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_table")

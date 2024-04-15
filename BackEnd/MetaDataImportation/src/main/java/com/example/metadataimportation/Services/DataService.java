@@ -77,6 +77,21 @@ public class DataService {
         schema.setTags(tags);
         schemaRepository.save(schema);
     }
+    @Transactional
+    public Schema createSchema(Long tableId, Schema schema) {
+        DataTable dataTable = tableRepository.findById(tableId)
+                .orElseThrow(() -> new RuntimeException("DataTable not found with id: " + tableId));
+        schema.setParentDataTable(dataTable);
+        return schemaRepository.save(schema);
+    }
+
+    @Transactional
+    public void deleteSchema(Long schemaId) {
+        if (!schemaRepository.existsById(schemaId)) {
+            throw new RuntimeException("Schema not found with id: " + schemaId);
+        }
+        schemaRepository.deleteById(schemaId);
+    }
 
 
 }
