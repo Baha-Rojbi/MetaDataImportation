@@ -21,6 +21,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatChipsModule } from '@angular/material/chips';
+import { HeaderComponent } from './header/header.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+
 
 
 
@@ -33,7 +36,10 @@ import { MatChipsModule } from '@angular/material/chips';
     DataTableListComponent,
     EditDataTableDialogComponent,
     SchemasComponent,
-    EditSchemaDialogComponent
+    EditSchemaDialogComponent,
+    HeaderComponent,
+    SidebarComponent
+
   ],
   imports: [
     BrowserModule,

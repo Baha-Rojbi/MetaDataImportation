@@ -22,8 +22,10 @@ public class DataTable implements Serializable {
     private Long idTable;
     private String name; // This will now hold the file name without the extension
     private String source; // Added attribute to store the file name with extension
+    private String fileType;
     private String description;
     private LocalDateTime creationDate;
+    private LocalDateTime modificationDate;
     private Double size;
     private String creator;
 

@@ -1,8 +1,41 @@
+
+    <nav>
+      <div class="logo">
+        
+        <h1>LOGO</h1>
+      </div>
+      <div class="search-container">
+        <input type="text" [(ngModel)]="searchQuery" (input)="filterDataTables()" placeholder="Search by table name or owner...">
+      </div>
+      <ul>
+       <li>
+            <a routerLink="/upload">Home</a>
+          </li>
+        <li>
+          <a routerLink="/upload">Upload</a>
+        </li>
+        <li>
+          <a routerLink="/tables">Tables</a>
+        </li>
+      </ul>
+      <div class="hamburger">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </nav>
+
+<div class="block-header">
+  <span class="block-title"
+    ><span class="text-900"><br></span></span>
+  <div class="block-actions text-900">
+    <a tabindex="0" class="block-action-active"></a
+    ><a class="block-action-disabled"></a>
+  </div>
+</div>
 <div class="main-container">
   <div class="card-container">
-    <div class="search-container">
-      <input type="text" [(ngModel)]="searchQuery" (input)="filterDataTables()" placeholder="Search by table name or owner...">
-    </div>
+   
     <div class="filter-container">
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Filter by Schema</mat-label>

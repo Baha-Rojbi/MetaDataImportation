@@ -89,7 +89,7 @@ export class SchemasComponent implements OnInit, OnDestroy  {
   }
 
   cancelEdit(): void {
-    // Handle cancelation logic here, if necessary
+    
   }
   
 

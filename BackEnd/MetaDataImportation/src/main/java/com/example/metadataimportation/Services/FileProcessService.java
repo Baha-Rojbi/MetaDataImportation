@@ -69,7 +69,7 @@ public class FileProcessService {
                 }
             }
 
-            saveFileMetadata(file.getOriginalFilename(), columnTypes, description, file.getSize());
+            saveFileMetadata(file.getOriginalFilename(), columnTypes, description, file.getSize(), "CSV");
             return "CSV file processed successfully";
         }
     }
@@ -98,18 +98,20 @@ public class FileProcessService {
                 }
             }
 
-            saveFileMetadata(file.getOriginalFilename(), columnTypes, description, file.getSize()); 
+            saveFileMetadata(file.getOriginalFilename(), columnTypes, description, file.getSize(), "EXCEL");
             return "Excel file processed successfully";
         }
     }
 
 
-    private void saveFileMetadata(String fileName, Map<String, String> columnTypes, String description, long fileSize) {
+    private void saveFileMetadata(String fileName, Map<String, String> columnTypes, String description, long fileSize, String fileType) {
         DataTable fileInfo = new DataTable();
         String nameWithoutExtension = fileName.contains(".") ? fileName.substring(0, fileName.lastIndexOf('.')) : fileName;
         fileInfo.setName(nameWithoutExtension); // Set name without extension
         fileInfo.setSource(fileName); // Set source to original file name
+        fileInfo.setFileType(fileType);
         fileInfo.setCreationDate(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES)); // Truncate seconds
+        fileInfo.setModificationDate(null);
         fileInfo.setSize((double) fileSize / 1024); // Set size in KB
         fileInfo.setDescription(description);
         fileInfo.setCreator("System");

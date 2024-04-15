@@ -206,7 +206,7 @@ removeOwner(owner: { owner: string; count: number }): void {
 
   openEditForm(dataTable: DataTable): void {
     const dialogRef = this.dialog.open(EditDataTableDialogComponent, {
-      width: '500px',
+      width: '300px',
       data: dataTable
     });
 

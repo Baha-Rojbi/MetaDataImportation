@@ -9,6 +9,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -35,8 +37,10 @@ public class DataService {
 @Transactional
     public DataTable saveOrUpdateDataTable(DataTable dataTable) {
         if (dataTable.getIdTable() != null && tableRepository.existsById(dataTable.getIdTable())) {
+            dataTable.setModificationDate(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES));
             return tableRepository.save(dataTable); // Update existing
         } else {
+            dataTable.setModificationDate(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES));
             return tableRepository.save(dataTable); // Create new
         }
     }

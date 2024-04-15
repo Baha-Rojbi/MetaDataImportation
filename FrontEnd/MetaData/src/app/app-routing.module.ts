@@ -6,10 +6,12 @@ import { SchemasComponent } from './table-schema/table-schemas/schemas.component
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
+  
   { path: 'upload', component: FileUploadComponent },
   { path: 'tables', component:DataTableListComponent },
   { path: 'schemas/:id', component: SchemasComponent },
-  { path: '', redirectTo: '/tables', pathMatch: 'full' }
+  { path: '', redirectTo: 'tables', pathMatch: 'full' }
+  
 ];
 
 @NgModule({
