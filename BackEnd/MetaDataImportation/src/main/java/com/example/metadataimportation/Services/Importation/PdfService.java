@@ -11,12 +11,21 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayOutputStream;
 import java.util.Set;
 
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 @Service
 public class PdfService implements IPdfService{
     @Autowired
     private DataService dataTableService;
+    private final String ACCOUNT_SID = "AC1d39955a23413357ea2300498f56f78c";
+    private final String AUTH_TOKEN = "2907cab12bb6e2a9fcc603c3d8e85bf7";
+    private final String FROM_PHONE_NUMBER = "+19382536454";
     @Override
     public byte[] generateDataTablePdf(Long tableId) {
+        // Initialize Twilio client
+        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+
         // Fetch the DataTable and Schemas from the database
         DataTable dataTable = dataTableService.getDataTableById(tableId).orElseThrow();
 
@@ -52,10 +61,23 @@ public class PdfService implements IPdfService{
             }
 
             document.close();
+
+            // Send SMS notification
+            sendSmsNotification("PDF Downloaded for DataTable: " + dataTable.getName() +" by : " +dataTable.getCreator());
         } catch (DocumentException e) {
             e.printStackTrace();
         }
         return out.toByteArray();
+    }
+
+    // Method to send SMS notification using Twilio
+    private void sendSmsNotification(String message) {
+        // Send SMS using Twilio
+        Message.creator(
+                new PhoneNumber("+21653802106"),
+                new PhoneNumber(FROM_PHONE_NUMBER),
+                message
+        ).create();
     }
 }
 
