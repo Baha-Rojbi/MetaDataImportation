@@ -1,9 +1,8 @@
-package com.example.metadataimportation.Repositories;
+package com.example.metadataimportation.Repositories.Importation;
 
-import com.example.metadataimportation.Entities.DataTable;
+import com.example.metadataimportation.Entities.Importation.DataTable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.xml.crypto.Data;
 import java.util.Optional;
 
 public interface TableRepository extends JpaRepository<DataTable,Long> {

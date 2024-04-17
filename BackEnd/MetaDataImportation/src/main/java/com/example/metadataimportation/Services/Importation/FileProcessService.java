@@ -1,9 +1,9 @@
-package com.example.metadataimportation.Services;
+package com.example.metadataimportation.Services.Importation;
 
-import com.example.metadataimportation.Entities.DataTable;
-import com.example.metadataimportation.Entities.Schema;
-import com.example.metadataimportation.Repositories.SchemaRepository;
-import com.example.metadataimportation.Repositories.TableRepository;
+import com.example.metadataimportation.Entities.Importation.DataTable;
+import com.example.metadataimportation.Entities.Importation.Schema;
+import com.example.metadataimportation.Repositories.Importation.SchemaRepository;
+import com.example.metadataimportation.Repositories.Importation.TableRepository;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import jakarta.transaction.Transactional;
@@ -29,12 +29,13 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class FileProcessService {
+public class FileProcessService implements IFileProcessService{
     @Autowired
     private TableRepository tableRepository;
 
     @Autowired
     private SchemaRepository schemaRepository;
+    @Override
     @Transactional
     public String processFile(MultipartFile file, String description) throws Exception {
         String fileName = file.getOriginalFilename();

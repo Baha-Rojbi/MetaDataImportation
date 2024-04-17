@@ -1,4 +1,4 @@
-package com.example.metadataimportation.Entities;
+package com.example.metadataimportation.Entities.Importation;
 
 import jakarta.persistence.*;
 import lombok.Getter;

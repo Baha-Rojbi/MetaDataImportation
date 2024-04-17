@@ -1,10 +1,11 @@
-package com.example.metadataimportation.Controllers;
+package com.example.metadataimportation.Controllers.Importation;
 
-import com.example.metadataimportation.Entities.DataTable;
-import com.example.metadataimportation.Entities.Schema;
-import com.example.metadataimportation.Services.DataService;
-import com.example.metadataimportation.Services.FileProcessService;
-import com.example.metadataimportation.Services.PdfService;
+import com.example.metadataimportation.Entities.Importation.DataTable;
+import com.example.metadataimportation.Entities.Importation.Schema;
+import com.example.metadataimportation.Services.Importation.DataService;
+import com.example.metadataimportation.Services.Importation.IDataService;
+import com.example.metadataimportation.Services.Importation.IFileProcessService;
+import com.example.metadataimportation.Services.Importation.IPdfService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -14,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -25,11 +25,11 @@ import java.util.Set;
 @RequestMapping("/api")
 public class MetaDataContoller {
     @Autowired
-    private FileProcessService fileProcessService;
+    private IFileProcessService fileProcessService;
     @Autowired
-    private DataService dataTableService;
+    private IDataService dataTableService;
     @Autowired
-    private PdfService pdfService;
+    private IPdfService pdfService;
     @Autowired
     public MetaDataContoller(DataService dataTableService) {
         this.dataTableService = dataTableService;
