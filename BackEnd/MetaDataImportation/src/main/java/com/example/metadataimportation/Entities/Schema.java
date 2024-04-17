@@ -23,8 +23,8 @@ public class Schema implements Serializable {
     private String type;
     private String description;
     @ElementCollection // This assumes tags are stored as a collection of simple elements
-    @CollectionTable(name = "schema_tags", joinColumns = @JoinColumn(name = "id_schema"))
-    @Column(name = "tag")
+    @CollectionTable(name = "schema_tags", joinColumns = @JoinColumn(name = "id_schema") )
+    @Column(name = "tag" )
     private Set<String> tags = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER)

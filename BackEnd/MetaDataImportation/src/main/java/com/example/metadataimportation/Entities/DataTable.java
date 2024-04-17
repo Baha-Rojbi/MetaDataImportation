@@ -28,8 +28,13 @@ public class DataTable implements Serializable {
     private LocalDateTime modificationDate;
     private Double size;
     private String creator;
+    private boolean archived = false;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "parentDataTable", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "parentDataTable", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Schema> schemas;
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
+    }
 }

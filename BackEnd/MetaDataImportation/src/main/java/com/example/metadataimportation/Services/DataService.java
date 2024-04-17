@@ -4,10 +4,12 @@ import com.example.metadataimportation.Entities.DataTable;
 import com.example.metadataimportation.Entities.Schema;
 import com.example.metadataimportation.Repositories.SchemaRepository;
 import com.example.metadataimportation.Repositories.TableRepository;
+
+
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -88,10 +90,38 @@ public class DataService {
     @Transactional
     public void deleteSchema(Long schemaId) {
         if (!schemaRepository.existsById(schemaId)) {
-            throw new RuntimeException("Schema not found with id: " + schemaId);
+            throw new EntityNotFoundException("Schema not found with id: " + schemaId);
         }
         schemaRepository.deleteById(schemaId);
     }
+    @Transactional
+    public DataTable toggleArchiveStatus(Long id) {
+        Optional<DataTable> optionalDataTable = tableRepository.findById(id);
+        if (optionalDataTable.isPresent()) {
+            DataTable dataTable = optionalDataTable.get();
+            dataTable.setArchived(!dataTable.isArchived());
+            return tableRepository.save(dataTable);
+        } else {
+            throw new EntityNotFoundException("DataTable not found with id: " + id);
+        }
+    }
+    @Transactional
+    public DataTable createDataTable(String name, String description) {
+        DataTable dataTable = new DataTable();
+        dataTable.setName(name);
+        dataTable.setDescription(description);
+        dataTable.setSource("table"); // As specified
+        dataTable.setFileType("none"); // As specified
+        dataTable.setCreationDate(LocalDateTime.now());
+        dataTable.setModificationDate(LocalDateTime.now());
+        dataTable.setSize(0.0);
+        dataTable.setCreator("System");
+        return tableRepository.save(dataTable);
+    }
+
+
+
+
 
 
 }

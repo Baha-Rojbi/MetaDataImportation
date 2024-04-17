@@ -14,7 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -105,6 +108,7 @@ public class MetaDataContoller {
         }
     }
 
+
     @GetMapping("/tables/{id}/download")
     public ResponseEntity<byte[]> downloadDataTablePdf(@PathVariable Long id) {
         byte[] pdfContent = pdfService.generateDataTablePdf(id);
@@ -114,5 +118,26 @@ public class MetaDataContoller {
         headers.setContentDispositionFormData("filename", "datatable-details.pdf");
         return new ResponseEntity<>(pdfContent, headers, HttpStatus.OK);
     }
+    @PutMapping("/tables/{id}/toggle-archive")
+    public ResponseEntity<?> toggleArchiveStatus(@PathVariable Long id) {
+        Optional<DataTable> optionalDataTable = dataTableService.findById(id);
+        if (optionalDataTable.isPresent()) {
+            DataTable dataTable = optionalDataTable.get();
+            dataTable.setArchived(!dataTable.isArchived());
+            dataTableService.saveOrUpdateDataTable(dataTable);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @PostMapping("/tables/create")
+    public ResponseEntity<DataTable> createDataTable(@RequestBody Map<String, String> payload) {
+        String name = payload.get("name");
+        String description = payload.get("description");
+        DataTable dataTable = dataTableService.createDataTable(name, description);
+        return new ResponseEntity<>(dataTable, HttpStatus.CREATED);
+    }
+
+
 
 }
